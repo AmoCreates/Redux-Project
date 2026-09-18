@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { getImages, getVideos } from "./api/mediaApi";
 import Image from "next/image";
+import SearchBar from "./components/SearchBar";
 
 const Page = () => {
 	const [photos, setPhotos] = useState<[]>([]);
@@ -22,18 +23,7 @@ const Page = () => {
 
 	return (
 		<div className="p-5">
-			<button
-				className="bg-blue-500 rounded-[7px] text-white p-2 cursor-pointer active:scale-97"
-				onClick={UnsplashImages}
-			>
-				Get Unsplahs Images
-			</button>
-			<button
-				className="bg-blue-500 rounded-[7px] text-white p-2 cursor-pointer active:scale-97"
-				onClick={PexelsVideos}
-			>
-				Get Pexels Videos
-			</button>
+			<SearchBar/>
 		</div>
 	);
 };
