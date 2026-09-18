@@ -5,15 +5,16 @@ import { Search } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }: { onSearch: () => void }) => {
 	const [search, setSearch] = useState<string>("");
 
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleQuery = () => {
-		if (search.length === 0 || search === "" || search.trim() === "") return;
+		if (search.length === 0 || search === "" || search.trim() === "")
+			return;
 		dispatch(setQuery(search));
-    console.log(search, "set")
+		onSearch();
 	};
 
 	return (
