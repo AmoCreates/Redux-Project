@@ -46,8 +46,8 @@ const ContentGrid = () => {
 								poster={imageSrc || undefined}
 								controls
 								preload="metadata"
-								autoPlay
 								loop
+                                muted
 								className="block h-auto w-full"
 							/>
 						) : imageSrc ? (
