@@ -5,7 +5,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface searchState {
 	query: string;
 	activeTab: string;
-	results: [];
+	results: Array<Record<string, any>>;
 	loading: boolean;
 	error: string | null;
 }
@@ -32,7 +32,7 @@ export const searchSlice = createSlice({
 			state.activeTab = action.payload;
 		},
 
-		setResults: (state, action: PayloadAction<[]>) => {
+		setResults: (state, action: PayloadAction<Array<Record<string, any>>>) => {
 			state.results = action.payload;
 		},
 

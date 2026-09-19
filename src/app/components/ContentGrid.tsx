@@ -1,20 +1,72 @@
-import { RootState } from '@/Toolkit/store'
-import React from 'react'
-import { useSelector } from 'react-redux'
+"use client";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Toolkit/store";
 
 const ContentGrid = () => {
-  const content = useSelector((state:RootState) => state.search.results)
-  const activeTab = useSelector((state:RootState) => state.search.activeTab);
-  console.log(content.length)
-  return (
-    <div className='flex gap-3 flex-wrap'>
-      {
-        content.map((con, i) => (
-          <div key={i} className='bg-zinc-100 w-2xs h-[600px] flex-grow'></div>
-        ))
-      }
-    </div>
-  )
-}
+	const content = useSelector((state: RootState) => state.search.results);
+	const activeTab = useSelector((state: RootState) => state.search.activeTab);
 
-export default ContentGrid
+	return (
+		<div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
+			{content.map((con, index) => {
+				const item = con as Record<string, any>;
+
+				const imageSrc =
+					typeof item.src === "object"
+						? item.src?.large2x ||
+							item.src?.large ||
+							item.src?.medium ||
+							item.src?.original
+						: item.thumbnail || item.image || item.url || item.src;
+
+				const videoFiles = Array.isArray(item.video_files)
+					? item.video_files
+					: [];
+
+				const selectedVideo =
+					videoFiles.find(
+						(file) =>
+							file?.quality === "hd" || file?.quality === "sd",
+					) || videoFiles[0];
+
+				const videoSrc = item.videoSrc || selectedVideo?.link || "";
+
+				const isVideo =
+					item.type === "video" ||
+					String(activeTab).toLowerCase().includes("video");
+
+				return (
+					<div
+						key={`${imageSrc || videoSrc}-${index}`}
+						className="mb-4 break-inside-avoid overflow-hidden rounded-xl bg-zinc-100 shadow-sm"
+					>
+						{isVideo && videoSrc ? (
+							<video
+								src={videoSrc}
+								poster={imageSrc || undefined}
+								controls
+								preload="metadata"
+								autoPlay
+								loop
+								className="block h-auto w-full"
+							/>
+						) : imageSrc ? (
+							<img
+								src={imageSrc}
+								alt={item.title || "Image"}
+								loading="lazy"
+								className="block h-auto w-full"
+							/>
+						) : (
+							<div className="flex min-h-40 items-center justify-center p-6 text-zinc-500">
+								Media unavailable
+							</div>
+						)}
+					</div>
+				);
+			})}
+		</div>
+	);
+};
+
+export default ContentGrid;
