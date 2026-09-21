@@ -38,7 +38,7 @@ const ContentGrid = () => {
 				return (
 					<div
 						key={`${imageSrc || videoSrc}-${index}`}
-						className="mb-4 break-inside-avoid overflow-hidden rounded-xl bg-zinc-100 shadow-sm"
+						className="relative mb-4 break-inside-avoid group overflow-hidden rounded-xl bg-zinc-100 shadow-sm"
 					>
 						{isVideo && videoSrc ? (
 							<video
@@ -47,7 +47,7 @@ const ContentGrid = () => {
 								controls
 								preload="metadata"
 								loop
-                                muted
+								muted
 								className="block h-auto w-full"
 							/>
 						) : imageSrc ? (
@@ -62,6 +62,7 @@ const ContentGrid = () => {
 								Media unavailable
 							</div>
 						)}
+						<p className="absolute hidden top-5 text-zinc-50 text-sm m-2 group-hover:block">{con.title}</p>
 					</div>
 				);
 			})}
