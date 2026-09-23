@@ -41,7 +41,7 @@ const Page = () => {
 				}}
 			/>
 			<Tabs photos={photos} videos={videos} />
-			<ContentGrid />
+			<ContentGrid loading={loading}/>
 		</div>
 	);
 };

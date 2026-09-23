@@ -2,10 +2,27 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/Toolkit/store";
 
-const ContentGrid = () => {
+const ContentGrid = ({ loading }: { loading: boolean }) => {
 	const content = useSelector((state: RootState) => state.search.results);
 	const activeTab = useSelector((state: RootState) => state.search.activeTab);
+	if (loading) {
+		return (
+			<div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
+				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
+					(val) => (
+						<div
+							key={val}
+							className={`${activeTab === "photos" ? "h-150 w-full" : "min-h-80 w-full"} bg-zinc-200 mb-4 rounded-xl animate-pulse`}
+						/>
+					),
+				)}
+			</div>
+		);
+	}
 
+	if(!loading && (!content.length || content.length == 0)) {
+		return <div className="text-xl text-zinc-400 mt-20 text-center">No Searched Content Yet.</div>
+	}
 	return (
 		<div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
 			{content.map((con, index) => {
@@ -62,7 +79,9 @@ const ContentGrid = () => {
 								Media unavailable
 							</div>
 						)}
-						<p className="absolute hidden top-5 text-zinc-50 text-sm m-2 group-hover:block">{con.title}</p>
+						<p className="absolute hidden top-5 text-zinc-50 text-sm m-2 group-hover:block">
+							{con.title}
+						</p>
 					</div>
 				);
 			})}
