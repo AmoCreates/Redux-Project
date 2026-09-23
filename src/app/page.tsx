@@ -4,28 +4,31 @@ import { getImages, getVideos } from "./api/mediaApi";
 import SearchBar from "./components/SearchBar";
 import Tabs from "./components/Tabs";
 import ContentGrid from "./components/ContentGrid";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/Toolkit/store";
+import { setResults } from "@/Toolkit/features/searchSlice";
 
-const Page =  () => {
+const Page = () => {
 	const [photos, setPhotos] = useState<[]>([]);
 	const [videos, setVideos] = useState<[]>([]);
 	const [loading, setLoading] = useState(false);
 
+	const dispatch = useDispatch<AppDispatch>();
+	const activeTab = useSelector((state: RootState) => state.search.activeTab);
+
 	const fetchResult = async (query: string) => {
 		setLoading(true);
-		const UnsplashImages = async (query: string) => {
-			const images = await getImages(query);
-			console.log(images);
-			setPhotos(images);
-		};
+		const fetchedImages = await getImages(query);
+		const fetchedVideos = await getVideos(query);
 
-		const PexelsVideos = async (query: string) => {
-			const videos = await getVideos(query);
-			console.log(videos);
-			setVideos(videos);
-		};
+		setPhotos(fetchedImages);
+		setVideos(fetchedVideos);
 
-		await UnsplashImages(query); 
-		await PexelsVideos(query); 
+		// 3. Dispatch the initial results immediately based on the active tab
+		const currentTab = activeTab || "photos";
+		dispatch(
+			setResults(currentTab === "photos" ? fetchedImages : fetchedVideos),
+		);
 
 		setLoading(false);
 	};
