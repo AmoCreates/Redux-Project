@@ -20,8 +20,12 @@ const ContentGrid = ({ loading }: { loading: boolean }) => {
 		);
 	}
 
-	if(!loading && (!content.length || content.length == 0)) {
-		return <div className="text-xl text-zinc-400 mt-20 text-center">No Searched Content Yet.</div>
+	if (!loading && (!content.length || content.length == 0)) {
+		return (
+			<div className="text-xl text-zinc-400 mt-20 text-center">
+				No Searched Content Yet.
+			</div>
+		);
 	}
 	return (
 		<div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
@@ -79,9 +83,14 @@ const ContentGrid = ({ loading }: { loading: boolean }) => {
 								Media unavailable
 							</div>
 						)}
-						<p className="absolute hidden top-5 text-zinc-50 text-sm m-2 group-hover:block">
-							{con.title}
-						</p>
+						<div className={`absolute opacity-0 group-hover:opacity-100 transition-opacity duration-500  ${isVideo ? "top-5" : "bottom-5"}`}>
+							<button className="mx-2 text-white bg-black/80 py-1 px-2 rounded-xl cursor-pointer active:scale-96 transition-all">
+								Save
+							</button>
+							<p className="text-sm m-2 text-white text-shadow-2xs ">
+								{con.title}
+							</p>
+						</div>
 					</div>
 				);
 			})}
