@@ -8,7 +8,7 @@ const ContentGrid = ({ loading }: { loading: boolean }) => {
 	if (loading) {
 		return (
 			<div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
-				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
+				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(
 					(val) => (
 						<div
 							key={val}
